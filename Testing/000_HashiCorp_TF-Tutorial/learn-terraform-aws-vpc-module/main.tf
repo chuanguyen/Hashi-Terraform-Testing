@@ -45,3 +45,14 @@ module "ec2_instances" {
     Environment = "dev"
   }
 }
+
+module "website_s3_bucket" {
+  source = "./modules/aws-s3-static-website-bucket"
+
+  bucket_name = "calvin-example-2022-03-27"
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
