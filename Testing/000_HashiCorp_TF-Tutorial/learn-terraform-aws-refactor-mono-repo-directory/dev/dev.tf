@@ -71,6 +71,6 @@ resource "aws_s3_object" "dev" {
   acl          = "public-read"
   key          = "index.html"
   bucket       = aws_s3_bucket.dev.id
-  content      = file("${path.module}/assets/index.html")
+  content      = file("${path.module}/../assets/index.html")
   content_type = "text/html"
 }
