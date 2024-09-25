@@ -19,3 +19,15 @@ resource "vault_generic_endpoint" "sysadmin" {
     }
   )
 }
+
+resource "vault_generic_endpoint" "devops_dev" {
+  depends_on           = [vault_auth_backend.userpass]
+  path                 = "auth/userpass/users/devops_dev"
+  ignore_absent_fields = true
+
+  data_json = jsonencode(
+    {
+      "password": "changeme"
+    }
+  )
+}
