@@ -51,8 +51,36 @@ data "aws_iam_policy_document" "trustPolicyforGitHubOIDC" {
   }
 }
 
-# Assume Role Policy is separate from the other policies I created
 resource "aws_iam_role" "GitHubAction-AssumeRoleWithAction" {
   name               = "GitHubAction-AssumeRoleWithAction"
   assume_role_policy = data.aws_iam_policy_document.trustPolicyforGitHubOIDC.json
+}
+
+# Give roles permissions to other AWS resources
+
+data "aws_iam_policy" "AmazonS3FullAccess" {
+  name = "AmazonS3FullAccess"
+}
+
+data "aws_iam_policy" "AWSLambda_FullAccess" {
+  name = "AWSLambda_FullAccess"
+}
+
+data "aws_iam_policy" "IAMFullAccess" {
+  name = "IAMFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "GitHubAction-AssumeRoleWithAction_AmazonS3FullAccess" {
+  role       = aws_iam_role.GitHubAction-AssumeRoleWithAction.name
+  policy_arn = data.aws_iam_policy.AmazonS3FullAccess.arn
+}
+
+resource "aws_iam_role_policy_attachment" "GitHubAction-AssumeRoleWithAction_AWSLambda_FullAccess" {
+  role       = aws_iam_role.GitHubAction-AssumeRoleWithAction.name
+  policy_arn = data.aws_iam_policy.AWSLambda_FullAccess.arn
+}
+
+resource "aws_iam_role_policy_attachment" "GitHubAction-AssumeRoleWithAction_IAMFullAccess" {
+  role       = aws_iam_role.GitHubAction-AssumeRoleWithAction.name
+  policy_arn = data.aws_iam_policy.IAMFullAccess.arn
 }
