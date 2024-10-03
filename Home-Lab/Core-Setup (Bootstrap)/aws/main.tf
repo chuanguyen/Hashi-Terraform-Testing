@@ -15,7 +15,7 @@ terraform {
 
   backend "s3" {
     bucket = "chuanguyen-tf-state"
-    key    = "prod/terraform.tfstate"
+    key    = "prod/aws_core_setup.tfstate"
     region = "us-east-1"
     dynamodb_table = "tf_state_lock_prod"
   }
