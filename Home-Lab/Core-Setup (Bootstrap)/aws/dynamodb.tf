@@ -1,5 +1,5 @@
-resource "aws_dynamodb_table" "tf_state_lock_db_prod" {
-  name = "tf_state_lock_prod"
+resource "aws_dynamodb_table" "tf_state_lock_db" {
+  name = "tf_state_lock"
   hash_key = "LockID"
   billing_mode = "PROVISIONED"
   read_capacity = 5

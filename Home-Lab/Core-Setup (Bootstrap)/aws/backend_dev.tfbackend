@@ -1,0 +1,9 @@
+### Used Terraform with local state to create resources and then ran a migration
+### terraform init -migrate-state Command used
+
+# path = "./terraform.tfstate"
+
+bucket = "chuanguyen-tf-state"
+key    = "aws_core_setup.tfstate"
+region = "us-east-1"
+dynamodb_table = "tf_state_lock"
