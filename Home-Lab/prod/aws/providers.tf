@@ -6,7 +6,7 @@ provider "aws" {
   default_tags {
     tags = {
       Environment = "prod"
-      Owner = "chua"
+      Owner       = "chua"
     }
   }
 }

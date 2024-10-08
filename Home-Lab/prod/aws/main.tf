@@ -6,17 +6,17 @@ terraform {
     }
   }
 
-### Used Terraform with local state to create resources and then ran a migration
-### terraform init -migrate-state Command used
+  ### Used Terraform with local state to create resources and then ran a migration
+  ### terraform init -migrate-state Command used
 
   # backend "local" {
   #   path = "./terraform.tfstate"
   # }
 
   backend "s3" {
-    bucket = "chuanguyen-tf-state"
-    key    = "aws_prod.tfstate"
-    region = "us-east-1"
+    bucket         = "chuanguyen-tf-state"
+    key            = "aws_prod.tfstate"
+    region         = "us-east-1"
     dynamodb_table = "tf_state_lock"
   }
 }
@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "trustPolicyforGitHubOIDC" {
     effect = "Allow"
 
     principals {
-      type = "Federated"
+      type        = "Federated"
       identifiers = [aws_iam_openid_connect_provider.oidc_github.arn]
     }
 
@@ -47,15 +47,15 @@ data "aws_iam_policy_document" "trustPolicyforGitHubOIDC" {
     ]
 
     condition {
-        test = "ForAnyValue:StringEquals"
-        variable = "token.actions.githubusercontent.com:sub"
-        values = ["repo:chuanguyen/AWS-Projects:ref:refs/heads/main"]
+      test     = "ForAnyValue:StringEquals"
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = ["repo:chuanguyen/AWS-Projects:ref:refs/heads/main"]
     }
 
     condition {
-        test = "ForAnyValue:StringEquals"
-        variable = "token.actions.githubusercontent.com:aud"
-        values = ["sts.amazonaws.com"]
+      test     = "ForAnyValue:StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
+      values   = ["sts.amazonaws.com"]
     }
 
   }
