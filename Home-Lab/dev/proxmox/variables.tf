@@ -104,61 +104,61 @@ variable "master_full_clone" {
   default     = "true"
 }
 
-## Slave nodes
+## Worker nodes
 
-variable "node_num_nodes" {
-  description = "Enter the number of Node VMs you want"
+variable "worker_num_nodes" {
+  description = "Enter the number of worker VMs you want"
   default     = 1
 }
 
-variable "node_enable_qemu_agent" {
+variable "worker_enable_qemu_agent" {
   description = "Set to 1 to enable the QEMU Guest Agent. 0 to disable"
   default     = "0"
 }
 
-variable "node_cpu_cores" {
+variable "worker_cpu_cores" {
   description = "Enter the value for the amount of cores per socket for your nodes. ie. 2"
   default     = "2"
 }
 
-variable "node_mem" {
+variable "worker_mem" {
   description = "Enter the value for the amount of RAM for your nodes. ie. 4096"
   default     = "4096"
 }
 
-variable "node_ciuser" {
+variable "worker_ciuser" {
   description = "Cloud-init username to override the default with"
 }
 
-variable "node_cipassword" {
+variable "worker_cipassword" {
   description = "Cloud-init password to override the default with"
 }
 
-variable "node_disk_size" {
-  description = "Enter the size of your Node node disks ie. 80G"
+variable "worker_disk_size" {
+  description = "Enter the size of your worker node disks ie. 80G"
   type        = string
   default     = "40G"
 }
 
-variable "node_disk_type" {
+variable "worker_disk_type" {
   description = "What interface type are you using? ie. scsi"
   type        = string
   default     = "disk"
 }
 
-variable "node_disk_location" {
+variable "worker_disk_location" {
   description = "Where do you want to store the disk on your host? ie. zfs-mirror, local, local-lvm, etc."
   type        = string
   default     = "YOUR-NODE-DISK-LOCATION"
 }
 
-variable "node_template_vm_name" {
+variable "worker_template_vm_name" {
   description = "Name of the template VM"
   type        = string
   default     = "YOUR-PM-VM-TEMPLATE-NAME"
 }
 
-variable "node_full_clone" {
+variable "worker_full_clone" {
   description = "Whether a full or linked clone is made"
   type        = bool
   default     = "true"
