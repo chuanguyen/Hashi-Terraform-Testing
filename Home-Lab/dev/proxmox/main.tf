@@ -31,6 +31,14 @@ resource "proxmox_vm_qemu" "k3s_masters" {
     type    = "cloudinit"
     storage = var.master_disk_location
   }
+
+  lifecycle {
+    ignore_changes = [
+      ciuser,
+      network,
+      disk
+    ]
+  }
 }
 
 resource "proxmox_vm_qemu" "k3s_nodes" {
@@ -65,6 +73,14 @@ resource "proxmox_vm_qemu" "k3s_nodes" {
     slot    = "ide0"
     type    = "cloudinit"
     storage = var.node_disk_location
+  }
+
+  lifecycle {
+    ignore_changes = [
+      ciuser,
+      network,
+      disk
+    ]
   }
 
   depends_on = [proxmox_vm_qemu.k3s_masters]
