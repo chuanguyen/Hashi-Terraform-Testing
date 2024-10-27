@@ -1,3 +1,3 @@
-output "node_ip" {
-  value = local.node_ip
+output "pm_vm_outputs" {
+  value = local.pm_vm_outputs
 }

@@ -20,28 +20,37 @@ resource "proxmox_vm_qemu" "pm_vm_node" {
   dynamic "disk" {
     for_each = var.pm_vm_disks
 
-    content = {
-        disk.key = disk.value
+    content {
+        slot = disk.value.slot
+        cache = disk.value.cache
+        replicate = disk.value.replicate
+        size = disk.value.size
+        type = disk.value.type
+        storage = disk.value.storage
     }
   }
 
   disk {
     ### Comment if the slot is necessary for the cloudinit drive
-    # slot    = "ide0"
+    slot    = var.pm_vm_cloudinit_disk_slot
     type    = "cloudinit"
-    storage = var.pm_vm_disk_location
+    storage = var.pm_vm_cloudinit_disk_location
   }
 
   lifecycle {
-    ignore_changes = var.pm_vm_lifecycle_ignored_change
+    ignore_changes = [
+      ciuser,
+      network,
+      disk
+    ]
   }
 }
 
 # Iterates through created Proxmox VMs
-# Maps node IP to the node name
+# Builds a map of the VM's name and corresponding discovered IPv4 address
 locals {
-  node_ip = {
-      pm_vm_name = pm_vm_node.name
-      pm_vm_ip   = pm_vm_node.default_ipv4_address
+  pm_vm_outputs = {
+      pm_vm_name = proxmox_vm_qemu.pm_vm_node.name
+      pm_vm_ip   = proxmox_vm_qemu.pm_vm_node.default_ipv4_address
     }
 }

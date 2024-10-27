@@ -29,11 +29,6 @@ variable "pm_vm_mem" {
   default     = "4096"
 }
 
-variable "num_pm_vm_mem" {
-  description = "Enter the value for the amount of RAM ie. 4096"
-  default     = "4096"
-}
-
 variable "pm_vm_ciuser" {
   description = "Cloud-init username to override the default with"
 }
@@ -43,38 +38,39 @@ variable "pm_vm_cipassword" {
 }
 
 variable "pm_vm_disks" {
-    type = list()
+    type = list(object({
+      slot = string
+      cache = string
+      replicate = bool
+      size = string
+      type = string
+      storage = string
+    }))
+
     description = "A list of disk object maps for creating on the node"
     default = [
-        {
-            slot = "virtio0"
-            cache = "none"
-            replicate = false
-            size = "20G"
-            type = disk
-            storage = "local-lvm"
-        }
+      {
+        slot = "virtio0"
+        cache = "none"
+        replicate = false
+        size = "20G"
+        type = "disk"
+        storage = "local-lvm"
+      }
     ]
-
 }
 
-# variable "pm_vm_disk_size" {
-#   description = "Enter the size of your node disks ie. 80G"
-#   type        = string
-#   default     = "40G"
-# }
+variable "pm_vm_cloudinit_disk_slot" {
+  description = "Which slot to connect the cloudinit drive to"
+  type        = string
+  default     = "ide0"
+}
 
-# variable "pm_vm_disk_type" {
-#   description = "What interface type are you using? ie. scsi"
-#   type        = string
-#   default     = "disk"
-# }
-
-# variable "pm_vm_disk_location" {
-#   description = "Where do you want to store the disk on your host? ie. zfs-mirror, local, local-lvm, etc."
-#   type        = string
-#   default     = "YOUR-DISK-LOCATION"
-# }
+variable "pm_vm_cloudinit_disk_location" {
+  description = "Where do you want to store the cloudinit disk on your host? ie. zfs-mirror, local, local-lvm, etc."
+  type        = string
+  default     = "local-lvm"
+}
 
 variable "pm_vm_net_ipconfig0" {
   description = "Define the IP configuration on the 1st interface"
@@ -92,14 +88,4 @@ variable "pm_vm_full_clone" {
   description = "Whether a full or linked clone is made"
   type        = bool
   default     = "true"
-}
-
-variable "pm_vm_lifecycle_ignored_changes" {
-  description = "Whether a full or linked clone is made"
-  type        = list()
-  default     = [
-    ciuser,
-    network,
-    disk
-  ]
 }
