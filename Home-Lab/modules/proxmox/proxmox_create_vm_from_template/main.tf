@@ -1,5 +1,7 @@
 resource "proxmox_vm_qemu" "pm_vm_node" {
-  name        = var.pm_vm_name
+  count = var.pm_vm_count
+
+  name        = "${var.pm_vm_name}-${count.index}"
   target_node = var.pm_target_node_name
   # When cloning, ensure the disk size matches the disk in the template
   # Otherwise, disk won't clone properly
@@ -50,7 +52,6 @@ resource "proxmox_vm_qemu" "pm_vm_node" {
 # Builds a map of the VM's name and corresponding discovered IPv4 address
 locals {
   pm_vm_outputs = {
-      pm_vm_name = proxmox_vm_qemu.pm_vm_node.name
-      pm_vm_ip   = proxmox_vm_qemu.pm_vm_node.default_ipv4_address
-    }
+    for pm_vm_node in proxmox_vm_qemu.pm_vm_node : pm_vm_node.name => pm_vm_node.default_ipv4_address
+  }
 }
