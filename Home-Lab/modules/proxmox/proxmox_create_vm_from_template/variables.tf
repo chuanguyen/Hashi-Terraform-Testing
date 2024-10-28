@@ -5,8 +5,24 @@ variable "pm_target_node_name" {
 
 # Node configuration
 
+variable "pm_vm_count" {
+  description = "Number of nodes to create"
+  type = number
+  default = 1
+
+  validation {
+    condition = var.pm_vm_count > 0
+    error_message = "Number of VMs to create must not be 0"
+  }
+}
+
 variable "pm_vm_name" {
   description = "Set name of the node being created"
+
+  validation {
+      condition = can(regex(".*[^-]$", var.pm_vm_name))
+      error_message = "VM names should not end in a dash"
+  }
 }
 
 variable "pm_vm_os_type" {
