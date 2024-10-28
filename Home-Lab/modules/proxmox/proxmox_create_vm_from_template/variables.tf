@@ -7,11 +7,11 @@ variable "pm_target_node_name" {
 
 variable "pm_vm_name" {
   description = "Set name of the node being created"
-  default     = "0"
 }
 
 variable "pm_vm_os_type" {
   description = "Set OS type of VM being created ie. cloud-init, ubuntu, centos"
+  default = "cloud-init"
 }
 
 variable "pm_vm_enable_qemu_agent" {
