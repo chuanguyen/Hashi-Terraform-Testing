@@ -11,10 +11,22 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "2.33.0"
     }
+
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.16.1"
+    }
   }
 }
 
 provider "kubernetes" {
   # Configuration options
   config_path = "~/.kube/config"
+}
+
+provider "helm" {
+  # Configuration options
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }
