@@ -19,8 +19,9 @@ locals {
 resource "kubernetes_labels" "cluster_nodes" {
   for_each = toset(local.cluster_all_node_names)
 
-  api_version = "v1"
-  kind        = "Node"
+  api_version   = "v1"
+  field_manager = "tf_kubernetes_labels_cluster_nodes"
+  kind          = "Node"
   metadata {
     name = each.key
   }
@@ -33,33 +34,19 @@ resource "kubernetes_labels" "cluster_nodes" {
   )
 }
 
-resource "kubernetes_labels" "k3s_servicelb_node_selection" {
+resource "kubernetes_node_taint" "mark_master_nodes" {
   for_each = toset(local.cluster_master_node_names)
 
-  api_version = "v1"
-  kind        = "Node"
+  field_manager = "tf_kubernetes_node_taint_mark_master_nodes"
   metadata {
     name = each.key
   }
-  labels = merge(
-    {
-      "svccontroller.k3s.cattle.io/enablelb" : "true"
-    }, kubernetes_labels.cluster_nodes[each.key].labels
-  )
+  taint {
+    key    = "compute"
+    value  = "gpu"
+    effect = "NoExecute"
+  }
 }
-
-# resource "kubernetes_node_taint" "mark_master_nodes" {
-#   for_each = toset(local.cluster_master_node_names)
-
-#   metadata {
-#     name = each.key
-#   }
-#   taint {
-#     key    = "compute"
-#     value  = "gpu"
-#     effect = "NoExecute"
-#   }
-# }
 
 # resource "kubernetes_labels" "test_node_selector" {
 #   api_version = "v1"
