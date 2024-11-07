@@ -34,19 +34,19 @@ resource "kubernetes_labels" "cluster_nodes" {
   )
 }
 
-resource "kubernetes_node_taint" "mark_master_nodes" {
-  for_each = toset(local.cluster_master_node_names)
+# resource "kubernetes_node_taint" "mark_master_nodes" {
+#   for_each = toset(local.cluster_master_node_names)
 
-  field_manager = "tf_kubernetes_node_taint_mark_master_nodes"
-  metadata {
-    name = each.key
-  }
-  taint {
-    key    = "compute"
-    value  = "gpu"
-    effect = "NoExecute"
-  }
-}
+#   field_manager = "tf_kubernetes_node_taint_mark_master_nodes"
+#   metadata {
+#     name = each.key
+#   }
+#   taint {
+#     key    = "compute"
+#     value  = "gpu"
+#     effect = "NoExecute"
+#   }
+# }
 
 # resource "kubernetes_labels" "test_node_selector" {
 #   api_version = "v1"
