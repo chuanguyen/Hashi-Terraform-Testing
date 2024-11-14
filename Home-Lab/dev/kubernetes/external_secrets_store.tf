@@ -51,6 +51,7 @@ resource "kubernetes_manifest" "ClusterSecretStore" {
           auth:
             tokenSecretRef:
               name: "vault-backend-secrets"
+              namespace: "default"
               key: "vault_token"
 EOF
   )
